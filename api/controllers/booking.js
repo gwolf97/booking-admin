@@ -19,8 +19,14 @@ export const createBooking = async (req,res,next) =>{
 }
 
 export const deleteBooking = async(req,res,next) =>{
+    const userId = req.params.userid;
     try {
         await Booking.findByIdAndDelete(req.params.id)
+        try {
+            await User.findByIdAndUpdate(userId, {$pull : {bookings: req.params.id}})
+        } catch (error) {
+            next(error)
+        }
         res.status(200).json("Booking Deleted")
     } catch (error) {
         next(error)
