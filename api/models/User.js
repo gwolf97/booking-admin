@@ -17,7 +17,7 @@ const UserSchema = new mongoose.Schema({
     },
     img:{
         type: String,
-        required:true
+        default:"https://i.ibb.co/MBtjqXQ/no-avatar.gif"
     },
     city:{
         type: String,
@@ -30,6 +30,10 @@ const UserSchema = new mongoose.Schema({
     password:{
         type: String,
         required:true
+    },
+    bookings:{
+        type: [String],
+        default: []
     },
     isAdmin:{
         type: Boolean,

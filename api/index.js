@@ -1,10 +1,11 @@
-import express from "express"
+import express, { application } from "express"
 import dotenv from "dotenv"
 import mongoose from "mongoose"
 import authRoute from "./routes/auth.js"
 import usersRoute from "./routes/users.js"
 import hotelsRoute from "./routes/hotels.js"
 import roomsRoute from "./routes/rooms.js"
+import bookingsRoute from "./routes/bookings.js"
 import cookieParser from "cookie-parser"
 import cors from "cors"
 const app = express()
@@ -36,6 +37,7 @@ app.use("/auth", authRoute)
 app.use("/users", usersRoute)
 app.use("/hotels", hotelsRoute)
 app.use("/rooms", roomsRoute)
+app.use("/bookings", bookingsRoute)
 
 app.use((err,req,res,next)=>{
     const errorStatus = err.status || 500
