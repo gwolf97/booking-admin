@@ -1,9 +1,7 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns, userRows } from "../../datatablesource";
 import { Link, useLocation } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -20,16 +18,6 @@ const Datatable = ({columns}) => {
   },[data])
 
   const navigate = useNavigate()
-
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`/${path}/${id}`)
-      console.log("User deleted")
-      setList(list.filter((item) => item.id !== id))
-    } catch (error) {
-      console.log(error)
-    }
-  };
 
   const handleRowClick = (row) => {
     if(path === "users"){
