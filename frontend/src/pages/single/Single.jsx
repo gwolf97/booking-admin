@@ -3,8 +3,18 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import Chart from "../../components/chart/Chart";
 import List from "../../components/table/Table";
+import { useParams } from "react-router-dom";
+import useFetch from "../../hooks/useFetch";
 
 const Single = () => {
+
+  const params = useParams()
+
+  const {data} = useFetch(`/users/${params.userId}`)
+
+  console.log(data)
+
+
   return (
     <div className="single">
       <Sidebar />
@@ -49,7 +59,7 @@ const Single = () => {
         </div>
         <div className="bottom">
         <h1 className="title">Last Transactions</h1>
-          <List/>
+          <List username={data.username}/>
         </div>
       </div>
     </div>

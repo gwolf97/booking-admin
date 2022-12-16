@@ -21,7 +21,6 @@ const Home = () => {
         <div className="widgets">
           <Widget type="users" amount={users.length} />
           <Widget type="hotels" amount={hotels.length} />
-
           <Widget type="bookings" amount={bookings.length} />
         </div>
         <div className="charts">

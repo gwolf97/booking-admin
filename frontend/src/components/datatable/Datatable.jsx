@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Datatable = ({columns}) => {
 
@@ -12,11 +13,13 @@ const Datatable = ({columns}) => {
   const path = location.pathname.split("/")[1]
   const [list, setList] = useState([])
   const {data, loading, error} = useFetch(`/${path}`)
+  const [rowId, setRowId] = useState("")
 
   useEffect(() => {
     setList(data)
   },[data])
 
+  const navigate = useNavigate()
 
   const handleDelete = async (id) => {
     try {
@@ -28,28 +31,14 @@ const Datatable = ({columns}) => {
     }
   };
 
-  const actionColumn = [
-    {
-      field: "action",
-      headerName: "Action",
-      width: 200,
-      renderCell: (params) => {
-        return (
-          <div className="cellAction">
-            <Link to="/users/test" style={{ textDecoration: "none" }}>
-              <div className="viewButton">View</div>
-            </Link>
-            <div
-              className="deleteButton"
-              onClick={() => handleDelete(params.row._id)}
-            >
-              Delete
-            </div>
-          </div>
-        );
-      },
-    },
-  ];
+  const handleRowClick = (row) => {
+    if(path === "users"){
+      navigate(`/users/${row.id}`)
+    }else{
+      return
+    }
+  }
+  
   return (
     <div className="datatable">
       <div className="datatableTitle">
@@ -61,11 +50,12 @@ const Datatable = ({columns}) => {
       <DataGrid
         className="datagrid"
         rows={list}
-        columns={path === "users" ? columns.concat(actionColumn) : columns}
+        columns={columns}
         pageSize={9}
         rowsPerPageOptions={[9]}
         checkboxSelection
         getRowId={row => row._id}
+        onRowClick={(row) => handleRowClick(row)}
       />
     </div>
   );

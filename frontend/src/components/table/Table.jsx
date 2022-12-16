@@ -8,12 +8,13 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import useFetch from "../../hooks/useFetch";
 import moment from "moment"
-import { useEffect, useState } from "react";
 
-const List = () => {
+const List = ({username}) => {
   const {data:bookings} = useFetch("/bookings")
+  const userBookings = bookings.filter(booking => booking.user === username)
 
   const reversedBookings = [...bookings].reverse()
+  const reversedUserBookings = [...userBookings].reverse()
 
 const readableDates = (dates) => {
   const firstDate = new Date(dates[0]).toLocaleDateString()
@@ -22,8 +23,8 @@ const readableDates = (dates) => {
   return `${firstDate}-${secondDate}`
 }
 
-  const rows = [
-  ];
+
+
   return (
     <TableContainer component={Paper} className="table">
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -38,7 +39,9 @@ const readableDates = (dates) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {reversedBookings.map((booking) => (
+          {username 
+          ? 
+          reversedUserBookings.map((booking) => (
             <TableRow key={booking._id}>
               <TableCell className="tableCell">{booking._id}</TableCell>
               <TableCell className="tableCell">{booking.user}</TableCell>
@@ -47,7 +50,19 @@ const readableDates = (dates) => {
               <TableCell className="tableCell">{readableDates(booking.dates)}</TableCell>
               <TableCell className="tableCell">{moment(booking.createdAt).format("MMMM Do YY, h:mm:ssa")}</TableCell>
             </TableRow>
-          ))}
+          )) 
+          :
+          reversedBookings.map((booking) => (
+            <TableRow key={booking._id}>
+              <TableCell className="tableCell">{booking._id}</TableCell>
+              <TableCell className="tableCell">{booking.user}</TableCell>
+              <TableCell className="tableCell">{booking.hotel.name}</TableCell>
+              <TableCell className="tableCell">{booking.hotel.id}</TableCell>
+              <TableCell className="tableCell">{readableDates(booking.dates)}</TableCell>
+              <TableCell className="tableCell">{moment(booking.createdAt).format("MMMM Do YY, h:mm:ssa")}</TableCell>
+            </TableRow>
+          ))
+          }
         </TableBody>
       </Table>
     </TableContainer>
