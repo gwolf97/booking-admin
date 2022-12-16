@@ -8,9 +8,14 @@ import roomsRoute from "./routes/rooms.js"
 import bookingsRoute from "./routes/bookings.js"
 import cookieParser from "cookie-parser"
 import cors from "cors"
+import {fileURLToPath} from "url"
+import path from "path"
 const app = express()
 dotenv.config()
 
+const __filename = fileURLToPath(import.meta.url);
+
+const _dirname = path.dirname(__filename)
 
 const connect = async () =>{
     try {
@@ -49,6 +54,12 @@ app.use((err,req,res,next)=>{
         stack:err.stack,
     })
 })
+
+app.use(express.static(path.join(_dirname, "../frontend/build")));
+
+app.get("*", function (request, response) {
+  response.sendFile(path.resolve(_dirname, "../frontend", "build", "index.html"));
+});
 
 const PORT = process.env.PORT || 5000
 
