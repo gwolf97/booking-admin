@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 const List = () => {
   const {data:bookings} = useFetch("/bookings")
 
-
+  const reversedBookings = [...bookings].reverse()
 
 const readableDates = (dates) => {
   const firstDate = new Date(dates[0]).toLocaleDateString()
@@ -38,7 +38,7 @@ const readableDates = (dates) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {bookings.map((booking) => (
+          {reversedBookings.map((booking) => (
             <TableRow key={booking._id}>
               <TableCell className="tableCell">{booking._id}</TableCell>
               <TableCell className="tableCell">{booking.user}</TableCell>

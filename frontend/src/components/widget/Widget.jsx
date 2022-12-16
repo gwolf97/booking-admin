@@ -4,16 +4,16 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
+import { Link } from "react-router-dom";
 
-const Widget = ({ type }) => {
+const Widget = ({ type, amount }) => {
   let data;
 
   //temporary
-  const amount = 100;
-  const diff = 20;
+    const diff = 20;
 
   switch (type) {
-    case "user":
+    case "users":
       data = {
         title: "USERS",
         isMoney: false,
@@ -29,12 +29,25 @@ const Widget = ({ type }) => {
         ),
       };
       break;
-    case "order":
+    case "hotels":
       data = {
-        title: "ORDERS",
+        title: "HOTELS",
         isMoney: false,
-        link: "View all orders",
+        link: "View all hotels",
         icon: (
+          <MonetizationOnOutlinedIcon
+            className="icon"
+            style={{ backgroundColor: "rgba(0, 128, 0, 0.2)", color: "green" }}
+          />
+          ),
+        };
+      break;
+      case "earning":
+        data = {
+          title: "EARNINGS",
+          isMoney: true,
+          link: "View net earnings",
+          icon: (
           <ShoppingCartOutlinedIcon
             className="icon"
             style={{
@@ -45,24 +58,11 @@ const Widget = ({ type }) => {
         ),
       };
       break;
-    case "earning":
+    case "bookings":
       data = {
-        title: "EARNINGS",
-        isMoney: true,
-        link: "View net earnings",
-        icon: (
-          <MonetizationOnOutlinedIcon
-            className="icon"
-            style={{ backgroundColor: "rgba(0, 128, 0, 0.2)", color: "green" }}
-          />
-        ),
-      };
-      break;
-    case "balance":
-      data = {
-        title: "BALANCE",
-        isMoney: true,
-        link: "See details",
+        title: "BOOKINGS",
+        isMoney: false,
+        link: "View all rooms",
         icon: (
           <AccountBalanceWalletOutlinedIcon
             className="icon"
@@ -85,7 +85,9 @@ const Widget = ({ type }) => {
         <span className="counter">
           {data.isMoney && "$"} {amount}
         </span>
-        <span className="link">{data.link}</span>
+        <Link to={type === "bookings" ? "/rooms" : `/${type}`} style={{ textDecoration: "none" }}>
+          <span className="link">{data.link}</span>
+        </Link>
       </div>
       <div className="right">
         <div className="percentage positive">
